@@ -1,108 +1,93 @@
 "use client";
 
-import { useState } from "react";
-import { Icon } from "@iconify/react";
 import {
-  Avatar,
-  Card,
-  CardContent,
   Stack,
   Typography,
   Box,
+  Tooltip,
 } from "@mui/material";
 import { useTranslations } from "@/contexts/LocaleContext";
-import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
+import { useTheme } from "@mui/material/styles";
+import { Icon } from "@iconify/react";
 
-const statsConfig = [
+type Skill = {
+  icon: string;
+  tooltip: string;
+};
+
+const skills: Skill[] = [
   {
-    title: "dashboard.stats.title.companies",
-    value: "3",
-    subtitle: "dashboard.stats.subtitle.companies",
-    icon: "solar:chart-square-line-duotone",
+    icon: "vscode-icons:file-type-js-official",
+    tooltip: "JavaScript (ES6+)",
   },
   {
-    title: "dashboard.stats.title.projects",
-    value: "8",
-    subtitle: "dashboard.stats.subtitle.projects",
-    icon: "solar:ribbon-star-line-duotone",
+    icon: "devicon:typescript",
+    tooltip: "TypeScript",
   },
   {
-    title: "dashboard.stats.title.notifications",
-    value: "5",
-    subtitle: "dashboard.stats.subtitle.notifications",
-    icon: "solar:pie-chart-2-line-duotone",
+    icon: "devicon:reactnative",
+    tooltip: "React.js",
   },
   {
-    title: "dashboard.stats.title.wallets",
-    value: "2",
-    subtitle: "dashboard.stats.subtitle.wallets",
-    icon: "solar:shield-user-line-duotone",
+    icon: "devicon:nextjs",
+    tooltip: "Next.js",
   },
+  {
+    icon: "vscode-icons:file-type-preact",
+    tooltip: "Preact",
+  },
+  {
+    icon: "devicon:tailwindcss",
+    tooltip: "Tailwind CSS",
+  },
+  {
+    icon: "skill-icons:css",
+    tooltip: "CSS3",
+  },
+  {
+    icon: "mdi:github",
+    tooltip: "GitHub",
+  },  
+  {
+    icon: "logos:docker-icon",
+    tooltip: "Docker",
+  },  
 ];
 
 export function StatHighlights() {
 
-  const [urgentNotifications] = useState(1);
-
+  
 
   const t = useTranslations();
-  const { colors, custom } = useThemeSettings();
+  const theme = useTheme();
 
   return (
-    <Box
-      sx={{
-        display: "grid",
-        gap: 3,
-        gridTemplateColumns: {
-          xs: "repeat(1, minmax(0, 1fr))",
-          md: "repeat(2, minmax(0, 1fr))",
-          xl: "repeat(4, minmax(0, 1fr))",
-        },
-      }}
-    >
-      {statsConfig.map((stat) => (
-        <Card key={stat.title}>
-          <CardContent>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="flex-start"
-            >
-              <Stack spacing={1}>
-              <Typography variant="h5" fontWeight={700}>
-                  {stat.value}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {t(stat.title)}
-                </Typography>
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color:
-                      stat.title === "dashboard.stats.title.notifications"
-                        ? custom.response.error
-                        : "success.main",
-                  }}
-                >
-                  {stat.title === "dashboard.stats.title.notifications"
-                    ? t(stat.subtitle, { number_urgent: urgentNotifications })
-                    : t(stat.subtitle)}
-                </Typography>
-              </Stack>
-              <Avatar
-                sx={{
-                  backgroundColor: colors.primary,
-                  color: colors.background,
-                  width: 48,
-                  height: 48,
-                }}
-              >
-                <Icon icon={stat.icon} width={24} height={24} />
-              </Avatar>
-            </Stack>
-          </CardContent>
-        </Card>
+    <>
+    <Typography variant="h4" color={theme.palette.primary.light} sx={{ alignSelf: "center" }}>
+      {t("dashboard.stats.title")}
+    </Typography>
+   <Stack direction="row" spacing={2} sx={{justifyContent:"center", alignItems:"center"}}>
+      {skills.map((skill) => (   
+        <Tooltip key={skill.tooltip} title={skill.tooltip} arrow>
+          <Box 
+            sx={{
+              width: "fit-content", 
+              cursor: "pointer",
+              p: 1,
+              pb: 0,
+              borderRadius: "10px",
+              transition: "transform 0.3s ease-in-out",
+              "&:hover": {
+                boxShadow: `0 12px 30px ${theme.palette.primary.light}`,
+              }
+            }} 
+          >
+            <Icon icon={skill.icon} width={36} height={36} />
+          </Box>
+        </Tooltip>
       ))}
-    </Box>
+    </Stack>
+    </>
+   
   );
 }
