@@ -32,7 +32,7 @@ export function AppBar() {
       <Toolbar >
         <Box  sx={{display: "flex", flexDirection: "column"}}>
           <Typography variant="h6">{t(NAV_ITEMS.find((item) => item.href === pathname)?.labelKey ?? "nav.home")}</Typography>
-          <Typography  color="text.secondary">{t(NAV_ITEMS.find((item) => item.href === pathname)?.subTitleKey ?? "nav.home.subtitle")}</Typography>
+      
         </Box>
       </Toolbar>
 

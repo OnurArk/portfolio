@@ -9,7 +9,11 @@ export const FALLBACK_LOCALE: LocaleKey = "en";
 export const FALLBACK_TRANSLATIONS: TranslationDictionary = {
   "general.loading": "Loading experiences…",
   "nav.home": "Dashboard",
-  "nav.home.subtitle": "Welcome to CRM-ERP Demo",
+  "dashboard.aboutMeTitle": "About Me",
+  "dashboard.hello": "Hello, I'm Mehmet Onur ARIK",
+  "dashboard.aboutMe": "I am a Frontend Developer who transitioned into software development after graduating from Antalya Bilim University with a degree in Civil Engineering in 2021. Following my growing interest in software during my university years, I made a deliberate career change and began my professional frontend journey at Smart Marine on August 15, 2023.",
+  "dashboard.aboutMe2": "I am a detail-oriented and well-organized developer who enjoys learning, researching, and improving continuously. I am comfortable working with existing codebases, asking questions when needed, and taking responsibility for delivering high-quality user interfaces.",
+  "dashboard.aboutMe3": "My goal is to continue growing as a frontend developer and to work on challenging projects where I can further develop my technical and problem-solving skills.",
   "nav.settings": "Settings",
   "nav.logout": "Log out",
   "nav.toggleTheme": "Switch theme",
