@@ -9,7 +9,7 @@ export function AboutMe() {
   const { custom } = useThemeSettings();
 
   return (
-    <Card>
+    <Card sx={{overflow: "visible"}}>
       <CardContent
         sx={{
           position: "relative",
@@ -27,6 +27,7 @@ export function AboutMe() {
             backgroundColor: "primary.main",
             boxShadow: `0 12px 30px ${custom.card.shadowColor}`,
             borderRadius: "0 20px 0 20px",
+            transform: "translateY(-50%)",
           }}
         >
           <Typography color="text.invertedText" sx={{ alignSelf: "center" }}>
