@@ -1,0 +1,48 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.*
+
+# Build outputs
+.next
+out
+build
+dist
+
+# Cache
+.cache
+.parcel-cache
+
+# Environment
+.env*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+*.pem
+
+# IDE
+.vscode
+.idea
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Public assets
+public/next.svg
+public/vercel.svg
+public/file.svg
+public/globe.svg
+public/window.svg
