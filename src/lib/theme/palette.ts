@@ -60,6 +60,8 @@ export function buildPalette(
     mode,
     primary: {
       main: colors.primary,
+      light: alpha(colors.primary, 0.5),
+      dark: alpha(colors.primary, 0.9),
     },
     background: {
       default: custom.paper.default,
