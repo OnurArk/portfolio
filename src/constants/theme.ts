@@ -85,7 +85,7 @@ export interface CustomColors {
 
 export type ThemeMode = "light" | "dark";
 
-export type ThemeColorKey = "primary" | "text" | "background" | "disabled";
+export type ThemeColorKey = "primary" | "text" | "invertedText" | "background" | "disabled";
 
 export type NavbarCustomKey = keyof NavbarColors;
 export type SurfaceCustomKey = keyof SurfaceColors;
@@ -112,12 +112,14 @@ export const DEFAULT_THEME_COLORS: Record<
   light: {
     primary: "#0054d1",
     text: "#0f172a",
+    invertedText: "#f8fafc",
     background: "#f8fafc",
     disabled: "#94a3b8",
   },
   dark: {
     primary: "#60a5fa",
     text: "#f8fafc",
+    invertedText: "#0f172a",
     background: "#020617",
     disabled: "#475569",
   },

@@ -21,6 +21,7 @@ import {
 const COLOR_KEYS: ThemeColorKey[] = [
   "primary",
   "text",
+  "invertedText",
   "background",
   "disabled",
 ];

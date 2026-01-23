@@ -34,6 +34,13 @@ declare module "@mui/material/styles" {
   interface PaletteOptions {
     custom?: Partial<CustomPalette>;
   }
+
+  interface TypeText {
+    primary: string;
+    secondary: string;
+    disabled: string;
+    invertedText: string;
+  }
 }
 
 export type PaletteBuild = {
@@ -61,6 +68,7 @@ export function buildPalette(
     text: {
       primary: colors.text,
       secondary: alpha(colors.text, 0.7),
+      invertedText: colors.invertedText,
     },
     action: {
       disabled: colors.disabled,
