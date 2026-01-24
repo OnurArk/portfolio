@@ -29,18 +29,21 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
 
 
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    
     if (isNavOpen) {
-      const timeout = setTimeout(() => {
+      timeout = setTimeout(() => {
         setOpacityLabel(1);
         setTitleLogo("Portfolio");
       }, 100);
-      return () => clearTimeout(timeout);
-    }else {
-     
+    } else {
+      timeout = setTimeout(() => {
         setOpacityLabel(0);
         setTitleLogo("P");
-     
+      }, 0);
     }
+    
+    return () => clearTimeout(timeout);
   }, [isNavOpen]);
 
   return (
