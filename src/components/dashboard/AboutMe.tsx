@@ -43,7 +43,7 @@ export function AboutMe() {
           <Typography
             variant="h3"
             color="text.primary"
-            sx={{ alignSelf: "center" }}
+            sx={{ alignSelf: "center" , fontSize: {xs: "1.8rem", md: "2.2rem", lg: "3rem"}}}
           >
             {t("dashboard.hello")}
           </Typography>
