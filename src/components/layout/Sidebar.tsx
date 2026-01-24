@@ -44,6 +44,7 @@ export function Sidebar() {
           userSelect: "none",
           overflowX: "hidden",
           gap: 3,
+          transition: "all 0.3s ease",
         }}
       >
         <Stack direction="row" spacing={1.5} alignItems="flex-start" justifyContent="center" position={"relative"}>
