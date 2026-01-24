@@ -5,8 +5,11 @@ import { Box } from "@mui/material";
 import { AuthGuard } from "@/components/auth/AuthGuard";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { AppBar } from "@/components/layout/AppBar";
+import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
+  const { navWidth } = useThemeSettings();
+
   return (
     <AuthGuard>
       <Box
@@ -25,10 +28,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             flexGrow: 1,
             padding: { xs: 3, md: 5 },
             maxWidth: "1800px",
-            marginLeft: { xs: "260px", md: "260px" },
-            width: { xs: "calc(100% - 260px)", md: "calc(100% - 260px)" },
+            marginLeft: { xs: `${navWidth}px`, md: `${navWidth}px` },
+            width: { xs: `calc(100% - ${navWidth}px)`, md: `calc(100% - ${navWidth}px)` },
             display: "flex",
             flexDirection: "column",
+            transition: "all 0.3s ease",
             gap: 4,
           }}
         >

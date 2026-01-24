@@ -27,6 +27,7 @@ import { buildTheme, mergeColors, mergeCustomColors } from "@/lib/theme";
 
 type StoredThemeState = {
   mode: ThemeMode;
+  navWidth: number;
   colors: Record<ThemeMode, ThemeColorOverrides>;
   custom: Record<ThemeMode, ThemeCustomOverrides>;
   workingCustom?: Record<ThemeMode, ThemeCustomOverrides>;
@@ -46,6 +47,7 @@ const defaultState: StoredThemeState = {
     light: {},
     dark: {},
   },
+  navWidth: 260,
 };
 
 const VALID_MODES: ThemeMode[] = ["light", "dark"];
@@ -70,6 +72,7 @@ const sanitizeState = (value: unknown): StoredThemeState | null => {
       light: candidate.workingCustom?.light ?? candidate.custom?.light ?? {},
       dark: candidate.workingCustom?.dark ?? candidate.custom?.dark ?? {},
     },
+    navWidth: candidate.navWidth ?? 260,
   };
 };
 
@@ -94,6 +97,7 @@ type ThemeSettingsContextValue = {
   hydrated: boolean;
   isNavOpen: boolean;
   setIsNavOpen: (isNavOpen: boolean) => void;
+  navWidth: number;
 };
 
 const ThemeSettingsContext = createContext<ThemeSettingsContextValue>({
@@ -110,6 +114,7 @@ const ThemeSettingsContext = createContext<ThemeSettingsContextValue>({
   hydrated: false,
   isNavOpen: false, 
   setIsNavOpen: () => undefined,
+  navWidth: 260,
 });
 
 export function ThemeSettingsProvider({ children }: PropsWithChildren) {
@@ -117,6 +122,8 @@ export function ThemeSettingsProvider({ children }: PropsWithChildren) {
   const [state, setState] = useState<StoredThemeState>(defaultState);
   const [isNavOpen, setIsNavOpen] = useState(false);  
   const [hydrated, setHydrated] = useState(false);
+
+  const navWidth = isNavOpen ? 260 : 60;
 
   const ensureWorkingCustom = useCallback(
     (working?: Record<ThemeMode, ThemeCustomOverrides>) =>
@@ -326,6 +333,7 @@ export function ThemeSettingsProvider({ children }: PropsWithChildren) {
       hydrated,
       isNavOpen,
       setIsNavOpen,
+      navWidth,
     }),
     [
       palette,
@@ -341,6 +349,7 @@ export function ThemeSettingsProvider({ children }: PropsWithChildren) {
       hydrated,
       isNavOpen,
       setIsNavOpen,
+      navWidth,
     ]
   );
 

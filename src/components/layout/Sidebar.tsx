@@ -19,13 +19,11 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
 
 
   const pathname = usePathname();
-  const { custom, isNavOpen, setIsNavOpen , mode} = useThemeSettings();
+  const { custom, isNavOpen, setIsNavOpen , mode, navWidth} = useThemeSettings();
   const { logout } = useAuth();
   const t = useTranslations();
 
   const theme = useTheme();
-
-  const width = isNavOpen ? 260 : 60;
 
 
   useEffect(() => {
@@ -54,10 +52,10 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
       <Box
         component="aside"
         sx={{
-          width: width,
-          minWidth: width,
-          maxWidth: width,
-          flex: "0 0 " + width + "px",
+          width: navWidth,
+          minWidth: navWidth,
+          maxWidth: navWidth,
+          flex: "0 0 " + navWidth + "px",
           boxShadow: `-4px 6px 24px ${custom.navbar.shadowColor}`,
           background: custom.navbar.bgColor,
           height: "100%",
