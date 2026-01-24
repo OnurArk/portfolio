@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Card, Box, CardContent, Typography } from "@mui/material";
 import { useTranslations } from "@/contexts/LocaleContext";
 import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
@@ -18,6 +19,9 @@ export function AboutMe() {
           gap: 2,
         }}
       >
+        <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%" , overflow: "hidden", width: "160px", height: "160px" , alignSelf: "center"}}>
+            <Image src="/images/profile.jpeg" alt="logo" width={160} height={160} style={{objectFit: "cover"}} />
+        </Box>
         <Box
           sx={{
             position: "absolute",
@@ -34,16 +38,20 @@ export function AboutMe() {
             {t("dashboard.aboutMeTitle")}
           </Typography>
         </Box>
-        <Typography
-          variant="h3"
-          color="text.primary"
-          sx={{ alignSelf: "center" }}
-        >
-          {t("dashboard.hello")}
-        </Typography>
-        <Typography color="text.primary">{t("dashboard.aboutMe")}</Typography>
-        <Typography color="text.primary">{t("dashboard.aboutMe2")}</Typography>
-        <Typography color="text.primary">{t("dashboard.aboutMe3")}</Typography>
+
+   
+          <Typography
+            variant="h3"
+            color="text.primary"
+            sx={{ alignSelf: "center" }}
+          >
+            {t("dashboard.hello")}
+          </Typography>
+          <Box sx={{mx: 6}}>
+            <Typography color="text.primary">{t("dashboard.aboutMe")}</Typography>
+            <Typography color="text.primary">{t("dashboard.aboutMe2")}</Typography>
+            <Typography color="text.primary">{t("dashboard.aboutMe3")}</Typography>
+        </Box>
       </CardContent>
     </Card>
   );
