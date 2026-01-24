@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@mui/material/styles";
@@ -12,6 +13,11 @@ import { useTranslations } from "@/contexts/LocaleContext";
 import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
 
 export function Sidebar() {
+const [opacityLabel, setOpacityLabel] = useState<number>(0);
+const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
+
+
+
   const pathname = usePathname();
   const { custom, isNavOpen, setIsNavOpen , mode} = useThemeSettings();
   const { logout } = useAuth();
@@ -20,6 +26,22 @@ export function Sidebar() {
   const theme = useTheme();
 
   const width = isNavOpen ? 260 : 60;
+
+
+  useEffect(() => {
+    if (isNavOpen) {
+      const timeout = setTimeout(() => {
+        setOpacityLabel(1);
+        setTitleLogo("Portfolio");
+      }, 100);
+      return () => clearTimeout(timeout);
+    }else {
+     
+        setOpacityLabel(0);
+        setTitleLogo("P");
+     
+    }
+  }, [isNavOpen]);
 
   return (
     <Box sx={{position: "fixed" , width: "fit-content",   height: "100%",
@@ -51,7 +73,10 @@ export function Sidebar() {
         
         <Box sx={{height:"80px"}}>
           <Link href="/">
-              <Typography color={theme.palette.primary.main} sx={{alignSelf: "center", fontWeight: 600 , cursor: "pointer" , ...(isNavOpen ? {marginTop: "0px", fontSize: "2.8rem"} : {marginTop: "10px", fontSize: "2.6rem" })}} >{isNavOpen ? "Portfolio" : "P"}</Typography>
+              <Typography color={theme.palette.primary.main} sx={{alignSelf: "center", fontWeight: 600 , cursor: "pointer" , transition: "all 0.4s ease",
+                 ...(isNavOpen ? {marginTop: "0px", fontSize: "2.8rem"} : {marginTop: "10px", fontSize: "2.6rem" })}} >
+                  {titleLogo}
+                  </Typography>
           </Link>
         </Box>
 
@@ -70,11 +95,11 @@ export function Sidebar() {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 1.5,
                   paddingY: 1.25,
                   paddingX: 1.5,
                   borderRadius: 1.5,
                   minWidth: isNavOpen ? "auto" : "44px",
+                  gap: 2,
                   color: active
                     ? custom.navbar.activeTextColor
                     : custom.navbar.textColor,
@@ -82,7 +107,6 @@ export function Sidebar() {
                   backgroundColor: active
                     ? custom.navbar.activeBgColor
                     : "transparent",
-                  transition: "all 0.2s ease",
                   "&:hover": {
                     backgroundColor: active
                       ? custom.navbar.activeBgColor
@@ -93,8 +117,12 @@ export function Sidebar() {
                   },
                 }}
               >
+                {isNavOpen ? <>
+                  <Icon icon={item.icon} width={22} height={22} />
+                  <Typography  sx={{whiteSpace: "nowrap", transition: "all 0.4s ease", opacity: opacityLabel,}}>{t(item.labelKey)}</Typography>
+                </> :
                 <Icon icon={item.icon} width={22} height={22} />
-                {isNavOpen ? t(item.labelKey) : ""}
+              }
               </Box>
             );
           })}
@@ -114,6 +142,7 @@ export function Sidebar() {
                 color: custom.navbar.hoverTextColor,
                 backgroundColor: custom.navbar.hoverBgColor,
               },
+              whiteSpace: "nowrap",
             }}
           >
             {t("nav.logout")}
