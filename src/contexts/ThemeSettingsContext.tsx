@@ -92,6 +92,8 @@ type ThemeSettingsContextValue = {
     values: Partial<CustomColors[CustomColorKey]>
   ) => void;
   hydrated: boolean;
+  isNavOpen: boolean;
+  setIsNavOpen: (isNavOpen: boolean) => void;
 };
 
 const ThemeSettingsContext = createContext<ThemeSettingsContextValue>({
@@ -106,11 +108,14 @@ const ThemeSettingsContext = createContext<ThemeSettingsContextValue>({
   resetColors: () => undefined,
   setSectionOverrides: () => undefined,
   hydrated: false,
+  isNavOpen: false, 
+  setIsNavOpen: () => undefined,
 });
 
 export function ThemeSettingsProvider({ children }: PropsWithChildren) {
   const prefersDark = useMediaQuery("(prefers-color-scheme: dark)");
   const [state, setState] = useState<StoredThemeState>(defaultState);
+  const [isNavOpen, setIsNavOpen] = useState(false);  
   const [hydrated, setHydrated] = useState(false);
 
   const ensureWorkingCustom = useCallback(
@@ -319,6 +324,8 @@ export function ThemeSettingsProvider({ children }: PropsWithChildren) {
       resetColors,
       setSectionOverrides,
       hydrated,
+      isNavOpen,
+      setIsNavOpen,
     }),
     [
       palette,
@@ -332,6 +339,8 @@ export function ThemeSettingsProvider({ children }: PropsWithChildren) {
       setSectionOverrides,
       state.mode,
       hydrated,
+      isNavOpen,
+      setIsNavOpen,
     ]
   );
 
