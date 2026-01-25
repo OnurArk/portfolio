@@ -1,16 +1,23 @@
 "use client";
 
-import { AppBar as MuiAppBar, Box, IconButton, Toolbar, Typography, alpha, useTheme, useMediaQuery} from "@mui/material";
+import { AppBar as MuiAppBar, Box, IconButton, Toolbar, Typography, alpha, useTheme, useMediaQuery, FormControl, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import { usePathname } from "next/navigation";
 
 import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
-import { useTranslations } from "@/contexts/LocaleContext";
+import { useLocale, useTranslations } from "@/contexts/LocaleContext";
 import { NAV_ITEMS } from "@/constants/navigation";
+import { SUPPORTED_LOCALES } from "@/translations/messages";
 import { Icon } from "@iconify/react";
+
+const LABELS: Record<string, string> = {
+  en: "English",
+  tr: "Türkçe",
+};
 
 export function AppBar() {
   const pathname = usePathname();
   const { mode, setMode, colors, setIsNavOpen , isUnderSmall} = useThemeSettings();
+  const { locale, setLocale } = useLocale();
   const t = useTranslations();
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
@@ -18,6 +25,10 @@ export function AppBar() {
   const isSm = useMediaQuery(theme.breakpoints.between("sm", "md"));
 
   const toggleTheme = () => setMode(mode === "light" ? "dark" : "light");
+
+  const handleLanguageChange = (event: SelectChangeEvent) => {
+    setLocale(event.target.value as typeof locale);
+  };
 
   return (
     <MuiAppBar
@@ -42,6 +53,36 @@ export function AppBar() {
         </Box>
       </Toolbar>
 
+      <Box sx={{display: "flex", alignItems: "center", gap: {xs: 0.5, sm: 1, md: 1.5}}}>
+        <FormControl 
+          sx={{ 
+            minWidth: {xs: 80, sm: 100, md: 120, lg: 140},
+            bgcolor: "background.default", 
+            borderRadius: 1,
+            "& .MuiOutlinedInput-root": {
+              height: {xs: 32, sm: 36, md: 40, lg: 44},
+              fontSize: {xs: "0.75rem", sm: "0.875rem", md: "0.9rem", lg: "1rem"},
+            },
+            "& .MuiInputLabel-root": {
+              fontSize: {xs: "0.7rem", sm: "0.8rem", md: "0.85rem", lg: "0.9rem"},
+            },
+            "& .MuiSelect-select": {
+              padding: {xs: "6px 32px 6px 12px", sm: "8px 36px 8px 14px", md: "10px 40px 10px 16px", lg: "12px 44px 12px 18px"},
+            }
+          }}
+        >
+          <Select 
+            value={locale} 
+            onChange={handleLanguageChange}
+          >
+            {SUPPORTED_LOCALES.map((code) => (
+              <MenuItem key={code} value={code}>
+                {LABELS[code]}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
         <Box sx={{display: "flex", alignItems: "center", bgcolor: "background.default", borderRadius: 1, padding: {xs: 0.4, sm: 0.8, md: 0.9, lg: 1}, cursor: "pointer"}} onClick={toggleTheme}>
           <IconButton
           aria-label={t("nav.toggleTheme")}
@@ -58,6 +99,7 @@ export function AppBar() {
           />
         </IconButton>
         </Box>
+      </Box>
       </Box>
     </MuiAppBar>
   );
