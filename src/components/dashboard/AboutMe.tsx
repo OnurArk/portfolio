@@ -1,13 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { Card, Box, CardContent, Typography } from "@mui/material";
+import { Card, Box, CardContent, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { useTranslations } from "@/contexts/LocaleContext";
 import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
 
 export function AboutMe() {
   const t = useTranslations();
   const { custom } = useThemeSettings();
+  const theme = useTheme();
+  
+  const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
+  const isMd = useMediaQuery(theme.breakpoints.between("md", "lg"));
+  const isSm = useMediaQuery(theme.breakpoints.between("sm", "md"));
+  
+  const imageSize = isLarge ? 200 : isMd ? 160 : isSm ? 120 : 100;
 
   return (
     <Card sx={{overflow: "visible"}}>
@@ -20,8 +27,8 @@ export function AboutMe() {
           p: {xs: 0.8, sm: 1.8, md: 2.6, lg: 3.5}
         }}
       >
-        <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%" , overflow: "hidden", width: "160px", height: "160px" , alignSelf: "center"}}>
-            <Image src="/images/profile.jpeg" alt="logo" width={160} height={160} style={{objectFit: "cover"}} />
+        <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%" , overflow: "hidden", width: `${imageSize}px`, height: `${imageSize}px` , alignSelf: "center"}}>
+            <Image src="/images/profile.jpeg" alt="logo" width={imageSize} height={imageSize} style={{objectFit: "cover"}} />
         </Box>
         <Box
           sx={{
