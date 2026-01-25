@@ -18,7 +18,7 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
 
 
   const pathname = usePathname();
-  const { custom, isNavOpen, setIsNavOpen ,navWidth, isNavHover, setIsNavHover, isUnderSmall} = useThemeSettings();
+  const {mode, custom, isNavOpen, setIsNavOpen ,navWidth, isNavHover, setIsNavHover, isUnderSmall} = useThemeSettings();
   const t = useTranslations();
 
   const theme = useTheme();
@@ -86,12 +86,12 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
           </Link>
         </Box>
 
-        <Box sx={{cursor: "pointer", position: "absolute", right: "-10px", top: "50%", transform: "translateY(-50%)", zIndex: 1400,
+      {!isUnderSmall && <Box sx={{cursor: "pointer", position: "absolute", right: "-10px", top: "50%", transform: "translateY(-50%)", zIndex: 1400,
      
       }} onClick={() => setIsNavOpen(!isNavOpen)} >  
              {isNavOpen &&  <Icon icon="fluent:radio-button-16-filled" width={24} height={24}/>  }
              {!isNavOpen && isNavHover && <Icon icon="fluent:radio-button-16-regular" width={24} height={24}/>}
-      </Box>
+      </Box>}
       </Stack>
 
 
@@ -140,6 +140,10 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
           })}
         </Stack>
       </Box>
+
+    {isUnderSmall && isNavOpen && (
+      <Box sx={{position: "fixed", inset: 0,  backgroundColor: mode === "light" ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.5)", opacity: 0.5, zIndex: 900}} onClick={() => setIsNavOpen(false)} />
+    )}
 
       </>
     
