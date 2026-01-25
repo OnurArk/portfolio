@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "CRM-ERP",
-    template: "%s | CRM-ERP"
+    default: "Portfolio",
+    template: "%s | Portfolio"
   },
   description:
     "Advanced realtime operations cockpit with comprehensive theme controls, multi-language support, and secure authentication. Monitor your business metrics in real-time.",
