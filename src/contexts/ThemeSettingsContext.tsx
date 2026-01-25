@@ -98,6 +98,8 @@ type ThemeSettingsContextValue = {
   isNavOpen: boolean;
   setIsNavOpen: (isNavOpen: boolean) => void;
   navWidth: number;
+  isNavHover: boolean;
+  setIsNavHover: (isNavHover: boolean) => void;
 };
 
 const ThemeSettingsContext = createContext<ThemeSettingsContextValue>({
@@ -115,15 +117,19 @@ const ThemeSettingsContext = createContext<ThemeSettingsContextValue>({
   isNavOpen: false, 
   setIsNavOpen: () => undefined,
   navWidth: 260,
+  isNavHover: false,
+  setIsNavHover: () => undefined,
 });
 
 export function ThemeSettingsProvider({ children }: PropsWithChildren) {
   const prefersDark = useMediaQuery("(prefers-color-scheme: dark)");
   const [state, setState] = useState<StoredThemeState>(defaultState);
-  const [isNavOpen, setIsNavOpen] = useState(false);  
   const [hydrated, setHydrated] = useState(false);
 
-  const navWidth = isNavOpen ? 260 : 60;
+  const [isNavOpen, setIsNavOpen] = useState(false);  
+  const [isNavHover, setIsNavHover] = useState<boolean>(false);
+
+  const navWidth = isNavOpen || isNavHover ? 260 : 60;
 
   const ensureWorkingCustom = useCallback(
     (working?: Record<ThemeMode, ThemeCustomOverrides>) =>
@@ -334,6 +340,8 @@ export function ThemeSettingsProvider({ children }: PropsWithChildren) {
       isNavOpen,
       setIsNavOpen,
       navWidth,
+      isNavHover,
+      setIsNavHover,
     }),
     [
       palette,
@@ -350,6 +358,8 @@ export function ThemeSettingsProvider({ children }: PropsWithChildren) {
       isNavOpen,
       setIsNavOpen,
       navWidth,
+      isNavHover,
+      setIsNavHover,
     ]
   );
 

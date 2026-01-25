@@ -19,17 +19,19 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
 
 
   const pathname = usePathname();
-  const { custom, isNavOpen, setIsNavOpen , mode, navWidth} = useThemeSettings();
+  const { custom, isNavOpen, setIsNavOpen ,navWidth, isNavHover, setIsNavHover} = useThemeSettings();
   const { logout } = useAuth();
   const t = useTranslations();
 
   const theme = useTheme();
 
+  const isFullSize = isNavOpen || isNavHover;
+
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     
-    if (isNavOpen) {
+    if (isNavOpen || isNavHover) {
       timeout = setTimeout(() => {
         setOpacityLabel(1);
         setTitleLogo("Portfolio");
@@ -42,26 +44,25 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
     }
     
     return () => clearTimeout(timeout);
-  }, [isNavOpen]);
+  }, [isNavOpen, isNavHover]);
 
   return (
-    <Box sx={{position: "fixed" , width: "fit-content",   height: "100%",
-      top: 0,
-      left: 0,
-      zIndex: 1200, }}>
       <Box
         component="aside"
         sx={{
           width: navWidth,
           minWidth: navWidth,
           maxWidth: navWidth,
+          height: "100%",
+          position: "fixed" , 
+          top: 0,
+          left: 0,
+          zIndex: 1200,
           flex: "0 0 " + navWidth + "px",
           boxShadow: `-4px 6px 24px ${custom.navbar.shadowColor}`,
           background: custom.navbar.bgColor,
-          height: "100%",
-          zIndex: 1200,
           overflowY: "auto",
-          padding: isNavOpen ? "20px" : "10px",
+          padding: isFullSize ? "20px" : "10px",
           display: "flex",
           flexDirection: "column",
           userSelect: "none",
@@ -69,6 +70,8 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
           gap: 3,
           transition: "all 0.3s ease",
         }}
+        onMouseEnter={() => !isNavOpen && setIsNavHover(true)}
+        onMouseLeave={() => !isNavOpen && setIsNavHover(false)}
       >
         <Stack direction="row" spacing={1.5} alignItems="flex-start" justifyContent="center" position={"relative"}>
         
@@ -81,6 +84,12 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
           </Link>
         </Box>
 
+        <Box sx={{cursor: "pointer", position: "absolute", right: "-10px", top: "50%", transform: "translateY(-50%)", zIndex: 1400,
+     
+      }} onClick={() => setIsNavOpen(!isNavOpen)} >  
+             {isNavOpen &&  <Icon icon="fluent:radio-button-16-filled" width={24} height={24}/>  }
+             {!isNavOpen && isNavHover && <Icon icon="fluent:radio-button-16-regular" width={24} height={24}/>}
+      </Box>
       </Stack>
 
 
@@ -99,7 +108,7 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
                   paddingY: 1.25,
                   paddingX: 1.5,
                   borderRadius: 1.5,
-                  minWidth: isNavOpen ? "auto" : "44px",
+                  minWidth: isFullSize ? "auto" : "44px",
                   gap: 2,
                   color: active
                     ? custom.navbar.activeTextColor
@@ -118,7 +127,7 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
                   },
                 }}
               >
-                {isNavOpen ? <>
+                {isFullSize ? <>
                   <Icon icon={item.icon} width={22} height={22} />
                   <Typography  sx={{whiteSpace: "nowrap", transition: "all 0.4s ease", opacity: opacityLabel,}}>{t(item.labelKey)}</Typography>
                 </> :
@@ -131,7 +140,7 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
 
         <Stack spacing={1} marginTop="auto">
 
-         {isNavOpen ? <Button
+         {isFullSize ? <Button
             variant="text"
             color="inherit"
             onClick={logout}
@@ -152,18 +161,7 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
         </Stack>
       </Box>
 
-      <Box sx={{cursor: "pointer", position: "absolute", right: "0px", top: "50%", transform: "translateY(-50%) translateX(100%)", zIndex: 1400,
-       padding: "6px",
-       paddingLeft: "0px",
-       height: "60px",
-       display: "flex",
-       alignItems: "center",
-       justifyContent: "center",
-       bgcolor: mode === "light" ? "#c6e0f5" : "#111827",
-       borderRadius: "0px 50px 50px 0px",
-      }} onClick={() => setIsNavOpen(!isNavOpen)} >  
-              <Icon icon="simple-line-icons:arrow-right" width={20} height={20} style={{transform: isNavOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.25s ease"}}/>
-      </Box>
-    </Box>
+   
+    
   );
 }
