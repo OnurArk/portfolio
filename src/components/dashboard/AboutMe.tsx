@@ -1,18 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { Card, Box, CardContent, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { Card, Box, CardContent, Typography, } from "@mui/material";
 import { useTranslations } from "@/contexts/LocaleContext";
 import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
 
-export function AboutMe() {
+type AboutMeProps = {
+  isLarge: boolean;
+  isMd: boolean;
+  isSm: boolean;
+}
+
+export function AboutMe({ isLarge, isMd, isSm }: AboutMeProps) {
   const t = useTranslations();
   const { custom } = useThemeSettings();
-  const theme = useTheme();
-  
-  const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
-  const isMd = useMediaQuery(theme.breakpoints.between("md", "lg"));
-  const isSm = useMediaQuery(theme.breakpoints.between("sm", "md"));
   
   const imageSize = isLarge ? 200 : isMd ? 160 : isSm ? 120 : 100;
 
@@ -35,14 +36,14 @@ export function AboutMe() {
             position: "absolute",
             top: 0,
             left: 0,
-            p: 2,
+            p: {xs: 1.2, sm: 1.5, md: 2, lg: 2.5},
             backgroundColor: "primary.main",
             boxShadow: `0 12px 30px ${custom.card.shadowColor}`,
             borderRadius: "0 20px 0 20px",
             transform: "translateY(-50%)",
           }}
         >
-          <Typography color="text.invertedText" sx={{ alignSelf: "center" }}>
+          <Typography color="text.invertedText" sx={{ alignSelf: "center" , fontSize: {xs: "0.6rem", sm: "0.8rem", md: "1rem", lg: "1.2rem"}}}>
             {t("dashboard.aboutMeTitle")}
           </Typography>
         </Box>
