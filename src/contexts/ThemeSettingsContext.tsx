@@ -11,6 +11,7 @@ import {
   useState,
 } from "react";
 import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 import {
   DEFAULT_THEME_COLORS,
@@ -51,6 +52,8 @@ const defaultState: StoredThemeState = {
 };
 
 const VALID_MODES: ThemeMode[] = ["light", "dark"];
+
+
 
 const sanitizeState = (value: unknown): StoredThemeState | null => {
   if (!value || typeof value !== "object") return null;
@@ -100,6 +103,7 @@ type ThemeSettingsContextValue = {
   navWidth: number;
   isNavHover: boolean;
   setIsNavHover: (isNavHover: boolean) => void;
+  isUnderSmall: boolean;
 };
 
 const ThemeSettingsContext = createContext<ThemeSettingsContextValue>({
@@ -119,6 +123,7 @@ const ThemeSettingsContext = createContext<ThemeSettingsContextValue>({
   navWidth: 260,
   isNavHover: false,
   setIsNavHover: () => undefined,
+  isUnderSmall: false,
 });
 
 export function ThemeSettingsProvider({ children }: PropsWithChildren) {
@@ -126,8 +131,11 @@ export function ThemeSettingsProvider({ children }: PropsWithChildren) {
   const [state, setState] = useState<StoredThemeState>(defaultState);
   const [hydrated, setHydrated] = useState(false);
 
-  const [isNavOpen, setIsNavOpen] = useState(false);  
+  const [isNavOpen, setIsNavOpen] = useState<boolean>(false);  
   const [isNavHover, setIsNavHover] = useState<boolean>(false);
+
+  const themeHook = useTheme();
+  const isUnderSmall = useMediaQuery(themeHook.breakpoints.down("sm"));
 
   const navWidth = isNavOpen || isNavHover ? 260 : 60;
 
@@ -342,6 +350,7 @@ export function ThemeSettingsProvider({ children }: PropsWithChildren) {
       navWidth,
       isNavHover,
       setIsNavHover,
+      isUnderSmall,
     }),
     [
       palette,
@@ -360,7 +369,8 @@ export function ThemeSettingsProvider({ children }: PropsWithChildren) {
       navWidth,
       isNavHover,
       setIsNavHover,
-    ]
+      isUnderSmall,
+    ]   
   );
 
   return (

@@ -7,7 +7,9 @@ import { AppBar } from "@/components/layout/AppBar";
 import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const { navWidth } = useThemeSettings();
+  const { navWidth, isUnderSmall } = useThemeSettings();
+
+const width = isUnderSmall ? 0 : navWidth;
 
   return (
     
@@ -27,8 +29,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             flexGrow: 1,
             padding: { xs: 3, md: 5 },
             maxWidth: "1800px",
-            marginLeft: { xs: `${navWidth}px`, md: `${navWidth}px` },
-            width: { xs: `calc(100% - ${navWidth}px)`, md: `calc(100% - ${navWidth}px)` },
+            marginLeft: { xs: `${width}px`, md: `${width}px` },
+            width: { xs: `calc(100% - ${width}px)`, md: `calc(100% - ${width}px)` },
             display: "flex",
             flexDirection: "column",
             transition: "all 0.3s ease",

@@ -18,7 +18,7 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
 
 
   const pathname = usePathname();
-  const { custom, isNavOpen, setIsNavOpen ,navWidth, isNavHover, setIsNavHover} = useThemeSettings();
+  const { custom, isNavOpen, setIsNavOpen ,navWidth, isNavHover, setIsNavHover, isUnderSmall} = useThemeSettings();
   const t = useTranslations();
 
   const theme = useTheme();
@@ -68,6 +68,9 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
           overflowX: "hidden",
           gap: 3,
           transition: "all 0.3s ease",
+          ...(isUnderSmall && !isNavOpen && {
+            display: "none",
+          }),
         }}
         onMouseEnter={() => !isNavOpen && setIsNavHover(true)}
         onMouseLeave={() => !isNavOpen && setIsNavHover(false)}

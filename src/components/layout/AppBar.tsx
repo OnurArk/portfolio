@@ -10,7 +10,7 @@ import { Icon } from "@iconify/react";
 
 export function AppBar() {
   const pathname = usePathname();
-  const { mode, setMode, colors } = useThemeSettings();
+  const { mode, setMode, colors, setIsNavOpen , isUnderSmall} = useThemeSettings();
   const t = useTranslations();
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
@@ -32,7 +32,9 @@ export function AppBar() {
         color: colors.text,
         userSelect: "none",
       }}
-    ><Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center", paddingX: {xs: 0.6, sm: 1, md: 1.5, lg: 2}}}>
+    >
+      <Icon icon="material-symbols:menu" width={24} height={24} onClick={() => setIsNavOpen(pre => !pre)} />
+      <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center", paddingX: {xs: 0.6, sm: 1, md: 1.5, lg: 2}}}>
        <Toolbar >
          <Box  sx={{display: "flex", flexDirection: "column"}}>
           <Typography  sx={{ fontWeight: 600, fontSize: {xs: "1.2rem", sm: "1.3rem", md: "1.4rem", lg: "1.6rem"}}}>{t(NAV_ITEMS.find((item) => item.href === pathname)?.labelKey ?? "nav.home")}</Typography>
