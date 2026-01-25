@@ -5,10 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@mui/material/styles";
 import { Icon } from "@iconify/react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 import { NAV_ITEMS } from "@/constants/navigation";
-import { useAuth } from "@/contexts/AuthContext";
 import { useTranslations } from "@/contexts/LocaleContext";
 import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
 
@@ -20,7 +19,6 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
 
   const pathname = usePathname();
   const { custom, isNavOpen, setIsNavOpen ,navWidth, isNavHover, setIsNavHover} = useThemeSettings();
-  const { logout } = useAuth();
   const t = useTranslations();
 
   const theme = useTheme();
@@ -138,27 +136,7 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
           })}
         </Stack>
 
-        <Stack spacing={1} marginTop="auto">
-
-         {isFullSize ? <Button
-            variant="text"
-            color="inherit"
-            onClick={logout}
-            startIcon={<Icon icon="solar:logout-3-line-duotone" />}
-            sx={{
-              justifyContent: "flex-start",
-              color: custom.navbar.textColor,
-              "&:hover": {
-                color: custom.navbar.hoverTextColor,
-                backgroundColor: custom.navbar.hoverBgColor,
-              },
-              whiteSpace: "nowrap",
-            }}
-          >
-            {t("nav.logout")}
-          </Button> : 
-          <Icon icon="solar:logout-3-line-duotone" width={20} height={20} onClick={logout} style={{cursor: "pointer", marginLeft: "10px", marginBottom: "16px"}}/>}
-        </Stack>
+   
       </Box>
 
    

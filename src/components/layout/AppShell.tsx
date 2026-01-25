@@ -2,7 +2,6 @@
 
 import { Box } from "@mui/material";
 
-import { AuthGuard } from "@/components/auth/AuthGuard";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { AppBar } from "@/components/layout/AppBar";
 import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
@@ -11,7 +10,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { navWidth } = useThemeSettings();
 
   return (
-    <AuthGuard>
+    
       <Box
         sx={{
           display: "flex",
@@ -41,7 +40,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </Box>
         </Box>
       </Box>
-    </AuthGuard>
+   
   );
 }
 
