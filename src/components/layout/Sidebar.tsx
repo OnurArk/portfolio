@@ -14,6 +14,7 @@ import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
 export function Sidebar() {
 const [opacityLabel, setOpacityLabel] = useState<number>(0);
 const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
+const [sidebarOpacity, setSidebarOpacity] = useState<number>(0);
 const prevPathnameRef = useRef<string>("");
 
   const pathname = usePathname();
@@ -23,6 +24,12 @@ const prevPathnameRef = useRef<string>("");
   const theme = useTheme();
 
   const isFullSize = isNavOpen || isNavHover;
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSidebarOpacity(1);
+    }, 100);
+  }, []);
 
 
   useEffect(() => {
@@ -75,7 +82,8 @@ const prevPathnameRef = useRef<string>("");
           userSelect: "none",
           overflowX: "hidden",
           gap: 3,
-          transition: "all 0.3s ease",
+          opacity: sidebarOpacity,
+          transition: "all 0.3s ease, opacity 0.2s ease",
           ...(isUnderSmall && !isNavOpen && {
             display: "none",
           }),
@@ -152,8 +160,7 @@ const prevPathnameRef = useRef<string>("");
     {isUnderSmall && isNavOpen && (
       <Box sx={{position: "fixed", inset: 0,  backgroundColor: mode === "light" ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.5)", opacity: 0.5, zIndex: 900}} onClick={() => setIsNavOpen(false)} />
     )}
-
-      </>
+    </>
     
   );
 }
