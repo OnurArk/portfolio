@@ -45,6 +45,7 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
   }, [isNavOpen, isNavHover]);
 
   return (
+    <>
       <Box
         component="aside"
         sx={{
@@ -135,11 +136,9 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
             );
           })}
         </Stack>
-
-   
       </Box>
 
-   
+      </>
     
   );
 }

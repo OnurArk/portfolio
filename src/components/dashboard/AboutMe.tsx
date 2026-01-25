@@ -17,6 +17,7 @@ export function AboutMe() {
           display: "flex",
           flexDirection: "column",
           gap: 2,
+          p: {xs: 0.8, sm: 1.8, md: 2.6, lg: 3.5}
         }}
       >
         <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%" , overflow: "hidden", width: "160px", height: "160px" , alignSelf: "center"}}>
@@ -39,18 +40,18 @@ export function AboutMe() {
           </Typography>
         </Box>
 
-   
+        <Box sx={{mx: {xs: 2, sm: 3, md: 4, lg: 6}}}>
           <Typography
             variant="h3"
             color="text.primary"
-            sx={{ alignSelf: "center" , fontSize: {xs: "1.8rem", md: "2.2rem", lg: "3rem"}}}
+            sx={{ alignSelf: "center", textAlign: "center" , fontSize: {xs: "1.4rem", sm: "1.8rem", md: "2.2rem", lg: "3rem"}}}
           >
             {t("dashboard.hello")}
           </Typography>
-          <Box sx={{mx: 6}}>
-            <Typography color="text.primary">{t("dashboard.aboutMe")}</Typography>
-            <Typography color="text.primary">{t("dashboard.aboutMe2")}</Typography>
-            <Typography color="text.primary">{t("dashboard.aboutMe3")}</Typography>
+          
+            <Typography color="text.primary" sx={{fontSize: {xs: "0.8rem" , sm: "0.9rem", md: "1rem", lg: "1.2"}}}>{t("dashboard.aboutMe")}</Typography>
+            <Typography color="text.primary" sx={{fontSize: {xs: "0.8rem" , sm: "0.9rem", md: "1rem", lg: "1.2"}}}>{t("dashboard.aboutMe2")}</Typography>
+            <Typography color="text.primary" sx={{fontSize: {xs: "0.8rem" , sm: "0.9rem", md: "1rem", lg: "1.2"}}}>{t("dashboard.aboutMe3")}</Typography>
         </Box>
       </CardContent>
     </Card>
