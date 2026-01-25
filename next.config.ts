@@ -27,9 +27,6 @@ const nextConfig: NextConfig = {
   // PoweredBy header removal for security
   poweredByHeader: false,
 
-  // Optimize bundle
-  swcMinify: true,
-  
   // Experimental features for performance
   experimental: {
     optimizePackageImports: [
