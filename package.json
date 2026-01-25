@@ -19,7 +19,7 @@
     "@mui/x-charts": "^8.20.0",
     "@uiw/react-color": "^2.9.2",
     "@uiw/color-convert": "^2.9.2",
-    "next": "16.0.4",
+    "next": "16.0.10",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
