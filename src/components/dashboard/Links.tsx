@@ -27,6 +27,12 @@ export function Links() {
       icon: "bx:mail-send",
       href: "mailto:onurark11@gmail.com",
       color: mode === "light" ? "#D44638" : "#D44638"
+    },
+    {
+      id: 4,
+      icon: "mdi:file-pdf-box",
+      href: "/CV.pdf",
+      color: mode === "light" ? "#DC143C" : "#FF6B6B"
     }
   ];
 
