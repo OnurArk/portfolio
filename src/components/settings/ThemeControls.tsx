@@ -447,16 +447,16 @@ export function ThemeControls() {
         <CardContent>
           <Stack spacing={3}>
             <Stack spacing={1}>
-              <Typography variant="h6" fontWeight={700}>
+              <Typography variant="h6" fontWeight={700} sx={{ fontSize: {xs: "1.2rem", sm: "1.4rem", md: "1.6rem", lg: "1.8rem"}}}>
                 {t("settings.theme.title")}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: {xs: "0.8rem", sm: "0.9rem", md: "1rem", lg: "1.1rem"}}}>
                 {t("settings.theme.description")}
               </Typography>
             </Stack>
 
             <Stack spacing={1}>
-              <Typography variant="subtitle2" color="text.secondary">
+              <Typography variant="subtitle2" color="text.secondary" sx={{ fontSize: {xs: "0.8rem", sm: "0.9rem", md: "1rem", lg: "1.1rem"}}}>
                 {t("settings.theme.mode.label")}
               </Typography>
               <ButtonGroup>
@@ -498,7 +498,7 @@ export function ThemeControls() {
                   }}
                 >
                   <Stack spacing={0.5} sx={{ flex: 1, minWidth: 0 }}>
-                    <Typography variant="subtitle1" fontWeight={700}>
+                    <Typography variant="subtitle1" fontWeight={700} sx={{ fontSize: {xs: "0.8rem", sm: "0.9rem", md: "1rem", lg: "1.1rem"}}}>
                       {t(section.titleKey)}
                     </Typography>
                     <Box sx={{ display: "flex", gap: 0.75, flexWrap: "wrap" }}>
@@ -560,7 +560,7 @@ export function ThemeControls() {
         }}
       >
         <DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Typography  fontWeight={700} sx={{ flex: 1 , fontSize: 20}}>
+          <Typography  fontWeight={700} sx={{ flex: 1 , fontSize: {xs: "1.2rem", sm: "1.3rem", md: "1.4rem", lg: "1.6rem"}}}>
             {activeSection ? t(activeSection.titleKey) : ""}
           </Typography>
           <IconButton onClick={handleCloseSection} size="small">

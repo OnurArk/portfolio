@@ -19,7 +19,7 @@ export function DashboardView() {
       <AboutMe isLarge={isLarge} isMd={isMd} isSm={isSm} />
       <Links />
       <StatHighlights />
-      <Projects isLarge={isLarge} isMd={isMd} isSm={isSm} />
+      <Projects />
     </Stack>
   );
 }

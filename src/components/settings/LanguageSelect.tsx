@@ -28,7 +28,7 @@ export function LanguageSelect() {
 
   return (
     <Stack spacing={1.5}>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color="text.secondary" sx={{ fontSize: {xs: "0.8rem", sm: "0.9rem", md: "1rem", lg: "1.1rem"}}}>
         {t("settings.language.description")}
       </Typography>
       <FormControl fullWidth>
