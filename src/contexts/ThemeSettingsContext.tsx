@@ -2,7 +2,9 @@
 
 import {
   createContext,
+  Dispatch,
   PropsWithChildren,
+  SetStateAction,
   startTransition,
   useCallback,
   useContext,
@@ -99,10 +101,10 @@ type ThemeSettingsContextValue = {
   ) => void;
   hydrated: boolean;
   isNavOpen: boolean;
-  setIsNavOpen: (isNavOpen: boolean) => void;
+  setIsNavOpen: Dispatch<SetStateAction<boolean>>;
   navWidth: number;
   isNavHover: boolean;
-  setIsNavHover: (isNavHover: boolean) => void;
+  setIsNavHover: Dispatch<SetStateAction<boolean>>;
   isUnderSmall: boolean;
 };
 
