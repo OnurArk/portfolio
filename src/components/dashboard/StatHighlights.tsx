@@ -55,18 +55,15 @@ const skills: Skill[] = [
 ];
 
 export function StatHighlights() {
-
-  
-
   const t = useTranslations();
   const theme = useTheme();
 
   return (
     <>
-    <Typography variant="h4" color={theme.palette.primary.light} sx={{ alignSelf: "center" }}>
+    <Typography variant="h4" color={theme.palette.primary.light} sx={{ alignSelf: "center" , fontSize: {xs: "1.6rem", sm: "1.8rem", md: "2rem", lg: "2.2rem"}}}>
       {t("dashboard.stats.title")}
     </Typography>
-   <Stack direction="row" spacing={2} sx={{justifyContent:"center", alignItems:"center"}}>
+   <Stack direction="row"  sx={{justifyContent:"center", alignItems:"center", flexWrap: "wrap", gap: 2}}>
       {skills.map((skill) => (   
         <Tooltip key={skill.tooltip} title={skill.tooltip} arrow>
           <Box 

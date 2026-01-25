@@ -4,14 +4,20 @@ import { Typography, Box } from "@mui/material";
 import { useTranslations, useLocale } from "@/contexts/LocaleContext";
 import { useTheme } from "@mui/material/styles";
 
-export function Projects() {
+type ProjectsProps = {
+  isLarge: boolean;
+  isMd: boolean;
+  isSm: boolean;
+}
+
+export function Projects({ isLarge, isMd, isSm }: ProjectsProps) {
   const t = useTranslations();
   const theme = useTheme();
   const { locale } = useLocale();
 
   const turkishContent = (
     <>
-      <Typography variant="h5" color="text.primary" sx={{ mt: 3, mb: 2, fontWeight: 600 }}>
+      <Typography variant="h5" color="text.primary" sx={{ mt: 3, mb: 2, fontWeight: 600 , fontSize: {xs: "1.2rem", sm: "1.4rem", md: "1.6rem", lg: "1.8rem"}}}>
         Frontend Developer – Smart Marine
       </Typography>
       <Typography variant="body1" color="text.primary" sx={{ mb: 2 }}>
@@ -201,7 +207,7 @@ export function Projects() {
 
   return (
     <>
-      <Typography variant="h4" color={theme.palette.primary.light} sx={{ alignSelf: "center" }}>
+      <Typography variant="h4" color={theme.palette.primary.light} sx={{ alignSelf: "center" , fontSize: {xs: "1.6rem", sm: "1.8rem", md: "2rem", lg: "2.2rem"}}}>
         {t("dashboard.projects.title")}
       </Typography>
       {locale === "tr" ? turkishContent : englishContent}

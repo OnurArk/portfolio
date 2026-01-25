@@ -32,7 +32,7 @@ export function Links() {
 
   return (
     <Box sx={{position: "relative", display: "flex", justifyContent:"center", alignItems:"center"}}>
-    <Stack direction="row" spacing={2} sx={{justifyContent:"center", alignItems:"center"}}>
+    <Stack direction="row"  sx={{justifyContent:"center", alignItems:"center", flexWrap: "wrap", gap: 2}}>
      {links.map((link) => (
       <Card 
         key={link.id} 
