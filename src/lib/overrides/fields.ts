@@ -17,16 +17,6 @@ export function buildFieldOverrides(
     placeholderColor: inputs.placeholderColor,
   };
 
-  const commonSelect = {
-    fontWeight: 500,
-    backgroundColor: selects.bgColor,
-    borderColor: selects.borderColor,
-    hoverBorderColor: selects.hoverBorderColor,
-    focusBorderColor: selects.focusBorderColor,
-    textColor: selects.textColor,
-    placeholderColor: selects.placeholderColor,
-    iconColor: selects.iconColor,
-  };
 
   return {
     MuiOutlinedInput: {
@@ -38,7 +28,7 @@ export function buildFieldOverrides(
           }
           const palette = commonInput;
           return {
-            backgroundColor: palette.backgroundColor ?? palette.bgColor,
+            backgroundColor: palette.backgroundColor ?? palette.backgroundColor,
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: palette.borderColor,
             },
