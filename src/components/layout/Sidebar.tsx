@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@mui/material/styles";
@@ -14,8 +14,7 @@ import { useThemeSettings } from "@/contexts/ThemeSettingsContext";
 export function Sidebar() {
 const [opacityLabel, setOpacityLabel] = useState<number>(0);
 const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
-
-
+const prevPathnameRef = useRef<string>("");
 
   const pathname = usePathname();
   const {mode, custom, isNavOpen, setIsNavOpen ,navWidth, isNavHover, setIsNavHover, isUnderSmall} = useThemeSettings();
@@ -43,6 +42,15 @@ const [titleLogo, setTitleLogo] = useState<"Portfolio" | "P">("Portfolio");
     
     return () => clearTimeout(timeout);
   }, [isNavOpen, isNavHover]);
+
+  useEffect(() => {
+    if (isUnderSmall && isNavOpen && pathname !== prevPathnameRef.current) {
+      setIsNavOpen(false);
+      prevPathnameRef.current = pathname;
+    } else if (pathname !== prevPathnameRef.current) {
+      prevPathnameRef.current = pathname;
+    }
+  }, [pathname, isUnderSmall, isNavOpen, setIsNavOpen]);
 
   return (
     <>
