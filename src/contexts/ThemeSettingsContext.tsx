@@ -5,81 +5,23 @@ import {
   Dispatch,
   PropsWithChildren,
   SetStateAction,
-  startTransition,
-  useCallback,
   useContext,
-  useEffect,
   useMemo,
-  useState,
 } from "react";
-import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
 import {
   DEFAULT_THEME_COLORS,
   DEFAULT_THEME_CUSTOM,
-  CustomColors,
   CustomColorKey,
-  ThemeColorOverrides,
-  ThemeCustomOverrides,
   ThemeMode,
-  THEME_STORAGE_KEY,
 } from "@/constants/theme";
-import { safeGetItem, safeSetItem } from "@/lib/storage";
-import { buildTheme, mergeColors, mergeCustomColors } from "@/lib/theme";
-
-type StoredThemeState = {
-  mode: ThemeMode;
-  navWidth: number;
-  colors: Record<ThemeMode, ThemeColorOverrides>;
-  custom: Record<ThemeMode, ThemeCustomOverrides>;
-  workingCustom?: Record<ThemeMode, ThemeCustomOverrides>;
-};
-
-const defaultState: StoredThemeState = {
-  mode: "light",
-  colors: {
-    light: {},
-    dark: {},
-  },
-  custom: {
-    light: {},
-    dark: {},
-  },
-  workingCustom: {
-    light: {},
-    dark: {},
-  },
-  navWidth: 260,
-};
-
-const VALID_MODES: ThemeMode[] = ["light", "dark"];
-
-
-
-const sanitizeState = (value: unknown): StoredThemeState | null => {
-  if (!value || typeof value !== "object") return null;
-  const candidate = value as Partial<StoredThemeState>;
-  if (!candidate.mode || !VALID_MODES.includes(candidate.mode)) {
-    return null;
-  }
-  return {
-    mode: candidate.mode,
-    colors: {
-      light: candidate.colors?.light ?? {},
-      dark: candidate.colors?.dark ?? {},
-    },
-    custom: {
-      light: candidate.custom?.light ?? {},
-      dark: candidate.custom?.dark ?? {},
-    },
-    workingCustom: {
-      light: candidate.workingCustom?.light ?? candidate.custom?.light ?? {},
-      dark: candidate.workingCustom?.dark ?? candidate.custom?.dark ?? {},
-    },
-    navWidth: candidate.navWidth ?? 260,
-  };
-};
+import type { CustomColors } from "@/constants/theme";
+import { useThemeState } from "@/hooks/useThemeState";
+import { useThemeStorage } from "@/hooks/useThemeStorage";
+import { useThemePalette } from "@/hooks/useThemePalette";
+import { useNavigation } from "@/hooks/useNavigation";
+import { useThemeCSSVariables } from "@/hooks/useThemeCSSVariables";
 
 type ThemeSettingsContextValue = {
   mode: ThemeMode;
@@ -129,210 +71,32 @@ const ThemeSettingsContext = createContext<ThemeSettingsContextValue>({
 });
 
 export function ThemeSettingsProvider({ children }: PropsWithChildren) {
-  const prefersDark = useMediaQuery("(prefers-color-scheme: dark)");
-  const [state, setState] = useState<StoredThemeState>(defaultState);
-  const [hydrated, setHydrated] = useState(false);
+  const {
+    state,
+    setState,
+    setMode,
+    updateCustomColor,
+    resetColors,
+    saveTheme,
+    resetCustomSection,
+    setSectionOverrides,
+  } = useThemeState();
 
-  const [isNavOpen, setIsNavOpen] = useState<boolean>(false);  
-  const [isNavHover, setIsNavHover] = useState<boolean>(false);
+  const { hydrated } = useThemeStorage(state, setState);
 
-  const themeHook = useTheme();
-  const isUnderSmall = useMediaQuery(themeHook.breakpoints.down("sm"));
+  const { palette, customPalette, workingCustomPalette, theme } =
+    useThemePalette(state);
 
-  const navWidth = isNavOpen || isNavHover ? 260 : 60;
+  const {
+    isNavOpen,
+    setIsNavOpen,
+    isNavHover,
+    setIsNavHover,
+    navWidth,
+    isUnderSmall,
+  } = useNavigation();
 
-  const ensureWorkingCustom = useCallback(
-    (working?: Record<ThemeMode, ThemeCustomOverrides>) =>
-      working ?? { light: {}, dark: {} },
-    []
-  );
-
-  useEffect(() => {
-    const storedRaw = safeGetItem<StoredThemeState | null>(
-      THEME_STORAGE_KEY,
-      null
-    );
-    const stored = sanitizeState(storedRaw);
-    if (stored) {
-      startTransition(() => setState(stored));
-    } else if (prefersDark) {
-      startTransition(() => setState((prev) => ({ ...prev, mode: "dark" })));
-    }
-    startTransition(() => setHydrated(true));
-  }, [prefersDark]);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    safeSetItem(THEME_STORAGE_KEY, state);
-  }, [state, hydrated]);
-
-  const setMode = useCallback(
-    (mode: ThemeMode) =>
-      setState((prev) => ({
-        ...prev,
-        mode,
-      })),
-    []
-  );
-
-  const updateCustomColor = useCallback(
-    (section: CustomColorKey, key: string, value: string | number) =>
-      setState((prev) => {
-        const workingRecord = ensureWorkingCustom(prev.workingCustom);
-        const workingCustom = workingRecord[prev.mode] ?? {};
-        const workingSectionValues =
-          (workingCustom[section] as Record<string, unknown>) ?? {};
-        const shouldSyncSelectIcon =
-          section === "inputs" && key === "iconColor";
-
-        if (key.includes(".")) {
-          const [nestedKey, prop] = key.split(".");
-          if (!nestedKey || !prop) return prev;
-          const workingNestedValues =
-            (workingSectionValues[nestedKey] as Record<string, unknown>) ?? {};
-
-          return {
-            ...prev,
-            workingCustom: {
-              ...workingRecord,
-              [prev.mode]: {
-                ...workingCustom,
-                [section]: {
-                  ...workingSectionValues,
-                  [nestedKey]: {
-                    ...workingNestedValues,
-                    [prop]: value,
-                  },
-                },
-              },
-            },
-          };
-        }
-
-        return {
-          ...prev,
-          workingCustom: {
-            ...workingRecord,
-            [prev.mode]: {
-              ...workingCustom,
-              [section]: {
-                ...workingSectionValues,
-                [key]: value,
-              },
-              ...(shouldSyncSelectIcon
-                ? {
-                    selects: {
-                      ...(workingCustom.selects as Record<string, unknown>),
-                      iconColor: value,
-                    },
-                  }
-                : {}),
-            },
-          },
-        };
-      }),
-    [ensureWorkingCustom]
-  );
-
-  const resetColors = useCallback(
-    () =>
-      setState((prev) => {
-        const workingRecord = ensureWorkingCustom(prev.workingCustom);
-        return {
-          ...prev,
-          colors: {
-            ...prev.colors,
-            [prev.mode]: {},
-          },
-          workingCustom: {
-            ...workingRecord,
-            [prev.mode]: {},
-          },
-        };
-      }),
-    [ensureWorkingCustom]
-  );
-
-  const saveTheme = useCallback(
-    () =>
-      setState((prev) => {
-        const working = ensureWorkingCustom(prev.workingCustom);
-        return {
-          ...prev,
-          custom: {
-            ...prev.custom,
-            [prev.mode]: working[prev.mode] ?? {},
-          },
-        };
-      }),
-    [ensureWorkingCustom]
-  );
-
-  const resetCustomSection = useCallback(
-    (section: CustomColorKey) =>
-      setState((prev) => {
-        const working = ensureWorkingCustom(prev.workingCustom);
-        const current = working[prev.mode] ?? {};
-        return {
-          ...prev,
-          workingCustom: {
-            ...working,
-            [prev.mode]: {
-              ...current,
-              [section]: {},
-            },
-          },
-        };
-      }),
-    [ensureWorkingCustom]
-  );
-
-  const setSectionOverrides = useCallback(
-    (section: CustomColorKey, values: Partial<CustomColors[CustomColorKey]>) =>
-      setState((prev) => {
-        const working = ensureWorkingCustom(prev.workingCustom);
-        const current = working[prev.mode] ?? {};
-        return {
-          ...prev,
-          workingCustom: {
-            ...working,
-            [prev.mode]: {
-              ...current,
-              [section]: values,
-            },
-          },
-        };
-      }),
-    [ensureWorkingCustom]
-  );
-
-  const palette = useMemo(() => {
-    const overrides = state.colors[state.mode] ?? {};
-    return mergeColors(state.mode, overrides);
-  }, [state]);
-
-  const customPalette = useMemo(() => {
-    const overrides = state.custom[state.mode] ?? {};
-    return mergeCustomColors(state.mode, overrides);
-  }, [state]);
-
-  const workingCustomPalette = useMemo(() => {
-    const overrides = state.workingCustom?.[state.mode] ?? {};
-    return mergeCustomColors(state.mode, overrides);
-  }, [state]);
-
-  const theme = useMemo(() => {
-    const overrides = state.colors[state.mode] ?? {};
-    const customOverrides = state.custom[state.mode] ?? {};
-    return buildTheme(state.mode, overrides, customOverrides);
-  }, [state]);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    const root = document.documentElement;
-    root.style.setProperty("--app-nav-bg", customPalette.navbar.bgColor);
-    root.style.setProperty("--app-text-color", palette.text);
-  }, [palette, customPalette, hydrated]);
+  useThemeCSSVariables(palette, customPalette, hydrated);
 
   const value = useMemo(
     () => ({
