@@ -21,7 +21,7 @@
     "@mui/x-charts": "^8.20.0",
     "@uiw/react-color": "^2.9.2",
     "@uiw/color-convert": "^2.9.2",
-    "next": "16.0.4",
+    "next": "16.0.7",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
@@ -30,7 +30,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.0.4",
+    "eslint-config-next": "16.0.7",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.3.3",
     "typescript": "^5"
