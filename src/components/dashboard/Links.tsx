@@ -32,7 +32,7 @@ export function Links() {
       id: 4,
       icon: "mdi:file-pdf-box",
       href: "/CV.pdf",
-      color: mode === "light" ? "#DC143C" : "#FF6B6B"
+      color: mode === "light" ? "#14dc21" : "#00ff40"
     }
   ];
 
