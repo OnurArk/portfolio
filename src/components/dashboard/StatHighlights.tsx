@@ -85,39 +85,48 @@ export function StatHighlights() {
       >
         {t("dashboard.stats.title")}
       </Typography>
-      <Stack
-        direction="row"
+      <Box
         sx={{
+          display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          flexWrap: "wrap",
-          gap: 2,
         }}
       >
-        {skills.map((skill) => (
-          <Box
-            key={skill.tooltip}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-              width: "fit-content",
-              cursor: "pointer",
-              p: 1,
-              borderRadius: "10px",
-              transition: "transform 0.3s ease-in-out",
-              "&:hover": {
-                boxShadow: `0 12px 30px ${theme.palette.primary.light}`,
-              },
-            }}
-          >
-            <Icon icon={skill.icon} width={36} height={36} />
-            <Typography variant="body2" color={theme.palette.text.primary}>
-              {skill.tooltip}
-            </Typography>
-          </Box>
-        ))}
-      </Stack>
+        <Stack
+          direction="row"
+          sx={{
+            maxWidth: "1000px",
+            justifyContent: "center",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 2,
+          }}
+        >
+          {skills.map((skill) => (
+            <Box
+              key={skill.tooltip}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                width: "fit-content",
+                cursor: "pointer",
+                p: 1,
+                borderRadius: "10px",
+                transition: "transform 0.3s ease-in-out",
+                "&:hover": {
+                  boxShadow: `0 12px 30px ${theme.palette.primary.light}`,
+                },
+              }}
+            >
+              <Icon icon={skill.icon} width={36} height={36} />
+              <Typography variant="body2" color={theme.palette.text.primary}>
+                {skill.tooltip}
+              </Typography>
+            </Box>
+          ))}
+        </Stack>
+      </Box>
     </>
   );
 }
