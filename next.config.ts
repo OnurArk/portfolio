@@ -1,12 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Internationalization
-  i18n: {
-    defaultLocale: "en",
-    locales: ["en", "tr"],
-  },
-
   // Performance optimizations
   compiler: {
     // Remove console.log in production

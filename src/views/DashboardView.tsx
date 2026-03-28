@@ -5,6 +5,7 @@ import { Stack,useMediaQuery, useTheme } from "@mui/material";
 import { AboutMe } from "@/components/dashboard/AboutMe";
 import { Links } from "@/components/dashboard/Links";
 import { StatHighlights } from "@/components/dashboard/StatHighlights";
+import { CvHighlights } from "@/components/dashboard/CvHighlights";
 import { Projects } from "@/components/dashboard/Projects";
 
 export function DashboardView() {
@@ -19,6 +20,7 @@ export function DashboardView() {
       <AboutMe isLarge={isLarge} isMd={isMd} isSm={isSm} />
       <Links />
       <StatHighlights />
+      <CvHighlights />
       <Projects />
     </Stack>
   );
